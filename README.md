@@ -15,3 +15,7 @@
 - Backend: FastAPI + SQLAlchemy + SQLite
 - Frontend: HTML/CSS/JS
 - Auth: JWT tokens
+
+
+how to Run
+uvicorn main:app --reload 
