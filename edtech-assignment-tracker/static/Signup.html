@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f0f0f0;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    input, select, button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 300px;
+      max-width: 100%;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Sign Up</h2>
+
+  <form action="/signup" method="post">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <select name="role" required>
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
+    <button type="submit">Sign Up</button>
+  </form>
+
+</body>
+</html>

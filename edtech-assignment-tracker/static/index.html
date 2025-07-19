@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EdTech Assignment Tracker - Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    input, select, button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 300px;
+      max-width: 100%;
+      font-size: 16px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .nav-links {
+      margin-top: 10px;
+    }
+    .nav-links a {
+      margin-right: 10px;
+      text-decoration: none;
+      color: #007BFF;
+    }
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to EdTech Assignment Tracker</h1>
+
+  <div class="nav-links">
+    <a href="teacher.html">Teacher Page</a> |
+    <a href="student.html">Student Page</a>
+  </div>
+
+<h2>Signup</h2>
+<form id="signup-form">
+  <input type="text" id="name" placeholder="Full Name" required><br>
+  <input type="text" id="username" placeholder="Username" required><br>
+  <input type="password" id="password" placeholder="Password" required><br>
+  <select id="role" required>
+    <option value="">Select Role</option>
+    <option value="student">Student</option>
+    <option value="teacher">Teacher</option>
+  </select><br>
+  <button type="submit">Signup</button>
+</form>
+
+<script>
+  document.getElementById("signup-form").addEventListener("submit", async (e) => {
+    e.preventDefault(); // prevent normal form submission
+
+    const data = {
+      name: document.getElementById("name").value,
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value,
+      role: document.getElementById("role").value
+    };
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/users/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert("Signup successful!");
+        // You can redirect to login or another page
+        // window.location.href = "/student.html";
+      } else {
+        alert("Signup failed: " + result.detail);
+      }
+    } catch (err) {
+      alert("Error connecting to server.");
+    }
+  });
+</script>
+
+
+</body>
+</html>

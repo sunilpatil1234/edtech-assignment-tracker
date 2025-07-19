@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f9f9f9;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    input, textarea, button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 300px;
+      max-width: 100%;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 100px;
+    }
+
+    button {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1976D2;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Submit Assignment</h2>
+
+  <form id="submit-form">
+    <input type="number" id="assignment-id" placeholder="Assignment ID" required>
+    <textarea id="answer" placeholder="Your answer..." required></textarea>
+    <button type="submit">Submit Assignment</button>
+  </form>
+
+  <script>
+    document.getElementById("submit-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("⚠️ You must be logged in as a student to submit an assignment.");
+        return;
+      }
+
+      const assignmentId = parseInt(document.getElementById("assignment-id").value);
+      const answer = document.getElementById("answer").value;
+
+      if (!assignmentId || !answer) {
+        alert("Please fill in both the Assignment ID and your answer.");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/submissions/", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            assignment_id: assignmentId,
+            content: answer
+          })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("✅ Assignment submitted! Submission ID: " + result.id);
+          document.getElementById("submit-form").reset();
+        } else {
+          alert("❌ Submission failed: " + (result.detail || "Unknown error"));
+        }
+      } catch (error) {
+        alert("Network error: " + error.message);
+      }
+    });
+  </script>
+
+</body>
+</html>

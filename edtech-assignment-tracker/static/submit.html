@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Submit Assignment</title>
+</head>
+<body>
+    <h2>Submit Assignment</h2>
+    <form action="http://127.0.0.1:8000/submit-assignment" method="post" enctype="multipart/form-data">
+        <label for="assignment_id">Assignment ID:</label>
+        <input type="number" name="assignment_id" id="assignment_id" required><br><br>
+
+        <label for="answer">Your Answer:</label><br>
+        <textarea name="answer" id="answer" rows="5" cols="40" required></textarea><br><br>
+
+        <label for="avatar">Upload Avatar (Optional):</label>
+        <input type="file" name="avatar" id="avatar" accept="image/*"><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

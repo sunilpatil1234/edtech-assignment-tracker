@@ -1,0 +1,91 @@
+<!-- static/teacher.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f4f4f4;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    input, textarea, button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 300px;
+      max-width: 100%;
+      font-size: 16px;
+    }
+    textarea {
+      height: 100px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome, Teacher!</h1>
+  <p>This is the teacher assignment dashboard.</p>
+
+  <h2>Create Assignment</h2>
+  <form id="assignment-form">
+    <input type="text" id="title" placeholder="Assignment Title" required>
+    <textarea id="description" placeholder="Description" required></textarea>
+    <input type="date" id="due-date" required>
+    <button type="submit">Create Assignment</button>
+  </form>
+
+  <script>
+    document.getElementById("assignment-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("⚠️ You must be logged in as a teacher to create an assignment.");
+        return;
+      }
+
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+      const due_date = document.getElementById("due-date").value;
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/assignments/", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ title, description, due_date })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("✅ Assignment created: " + result.title);
+          document.getElementById("assignment-form").reset();
+        } else {
+          alert("❌ Failed to create assignment: " + (result.detail || "Unknown error"));
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        alert("❌ Network error or server is not running.");
+      }
+    });
+  </script>
+
+</body>
+</html>
